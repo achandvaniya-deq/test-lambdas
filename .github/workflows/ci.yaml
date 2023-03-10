@@ -19,5 +19,5 @@ jobs:
           ignore: "**/+(.github)"
           foldersOnly: true 
   
-    - name: Echo changed files
-      run: echo ${{ steps.get_changed.outputs.changed }}
+      - name: Echo changed files
+        run: echo ${{ steps.get_changed.outputs.changed }}
