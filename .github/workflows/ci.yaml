@@ -1,0 +1,13 @@
+name: Deploy lambda[Staging]
+on:
+  push
+  
+jobs:
+
+  test-build:
+    runs-on: ubuntu-latest
+    name: Test Lambda function
+    steps:
+      - name: Check build status
+        run: |
+        echo "hello"
