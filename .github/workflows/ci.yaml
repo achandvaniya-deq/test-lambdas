@@ -8,9 +8,9 @@ jobs:
     runs-on: ubuntu-latest
     name: Test Lambda function
     steps:
-      - name: Check build status
-        run: |
-          echo "hello"
+      # - name: Check build status
+      #   run: |
+      #     echo "hello"
     
       - uses: Stockopedia/action-get-changed-files@v1
         id: get_changed
