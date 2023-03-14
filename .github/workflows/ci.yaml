@@ -12,13 +12,20 @@ jobs:
       #   run: |
       #     echo "hello"
     
-      - uses: Stockopedia/action-get-changed-files@v1
-        id: get_changed
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          ignore: "**/.github/)"
-          foldersOnly: true 
-          format: json
+      # - uses: Stockopedia/action-get-changed-files@v1
+      #   id: get_changed
+      #   with:
+      #     github-token: ${{ secrets.GITHUB_TOKEN }}
+      #     ignore: "**/.github/)"
+      #     foldersOnly: true 
+      #     format: json
       
-      - name: Echo changed files
-        run: echo ${{ steps.get_changed.outputs.changed }}
+      # - name: Echo changed files
+      #   run: echo ${{ steps.get_changed.outputs.changed }}
+      - name: get changed files
+        id: getfile
+        run: |
+          echo "::set-output name=files::$(git diff-tree --no-commit-id --name-only -r ${{ github.sha }} | xargs)"
+      - name: echo output
+        run: |
+          echo ${{ steps.getfile.outputs.files }}
