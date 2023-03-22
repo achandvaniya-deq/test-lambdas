@@ -16,7 +16,7 @@ jobs:
 
       # Get the path of the changed files
       - name: Get changed files
-        run: echo "'changed files :' ${{ steps.files.outputs.files }}"
+        run: echo "changed files ${{ steps.files.outputs.files }}"
         id: files
         env:
           GITHUB_EVENT_PATH: ${{ github.event_path }}
