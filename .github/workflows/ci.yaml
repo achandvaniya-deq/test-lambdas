@@ -19,11 +19,12 @@ jobs:
         with:
           list-files: shell
           filters: |
-            services:
-              - 'Services/**'
+            functions:
+              - 'function1/**'
+              - 'function2/**'
       
       - name: Deploy changed services
-        if: ${{ steps.filter.outputs.services == 'true' }}
+        if: ${{ steps.filter.outputs.functions == 'true' }}
         run: |
           echo "All changes:"
           for i in ${{ steps.filter.outputs.services_files }}; do echo $i | awk ; done
