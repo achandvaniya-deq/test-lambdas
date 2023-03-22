@@ -10,22 +10,24 @@ jobs:
     runs-on: ubuntu-latest
     name: Test Lambda function
     steps:
-      - name: Check build status
-        run: |
-          echo "hello"
-          echo "${{ github.workspace }}"
+      - name: Checkout
+        uses: actions/checkout@v2
       
-      - uses: Stockopedia/action-get-changed-files@v1
-        id: get_changed
+      - name: Check which services were modified
+        uses: dorny/paths-filter@v2
+        id: filter
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          foldersOnly: true 
-          format: csv
-
-      - name: Echo changed files
-        run: echo ${{ steps.get_changed.outputs.changed }}
+          list-files: shell
+          filters: |
+            services:
+              - 'Services/**'
+      
+      - name: Deploy changed services
+        if: ${{ steps.filter.outputs.services == 'true' }}
+        run: |
+          echo "All changes:"
+          for i in ${{ steps.filter.outputs.services_files }}; do echo $i | awk ; done
     
-
       # - uses: Stockopedia/action-get-changed-files@v1
       #   id: get_changed
       #   with:
