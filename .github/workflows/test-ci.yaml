@@ -22,5 +22,7 @@ jobs:
       - name: List all changed files
         run: |
           for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
-            echo "$file was changed"
+            echo "$file was changed in $(file | grep ^[a-z 0-9 A-Z]*\/[a-z 0-9 A-Z]*) folder"
           done
+
+
