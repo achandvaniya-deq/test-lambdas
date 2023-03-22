@@ -1,17 +1,21 @@
 name: Deploy lambda[Staging]
 on:
-  push
-
+  push:
+    paths:
+      - 'lambda_functions/function1/**'
+      - 'lambda_functions/function2/**'
 jobs:
 
   test-build:
     runs-on: ubuntu-latest
     name: Test Lambda function
     steps:
-      # - name: Check build status
-      #   run: |
-      #     echo "hello"
+      - name: Check build status
+        run: |
+          echo "hello"
+          echo "${{ github.workspace }}"
     
+
       # - uses: Stockopedia/action-get-changed-files@v1
       #   id: get_changed
       #   with:
@@ -22,11 +26,11 @@ jobs:
       
       # - name: Echo changed files
       #   run: echo ${{ steps.get_changed.outputs.changed }}
-      - name: get changed files
-        id: getfile
-        run: |
-          echo "::set-output name=files::$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} | xargs)"
+      # - name: get changed files
+      #   id: getfile
+      #   run: |
+      #     echo "::set-output name=files::$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} | xargs)"
       
-      - name: echo output
-        run: |
-          echo ${{ steps.getfile.outputs.files }}
+      # - name: echo output
+      #   run: |
+      #     echo ${{ steps.getfile.outputs.files }}
