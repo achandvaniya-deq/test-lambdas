@@ -1,2 +1,2 @@
 def lambda_handler(event, context):
-    print("Hello from function 1122")
+    print("Hello from function")
