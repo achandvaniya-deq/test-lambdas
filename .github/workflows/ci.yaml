@@ -14,6 +14,16 @@ jobs:
         run: |
           echo "hello"
           echo "${{ github.workspace }}"
+      
+      - uses: Stockopedia/action-get-changed-files@v1
+        id: get_changed
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          foldersOnly: true 
+          format: csv
+
+      - name: Echo changed files
+        run: echo ${{ steps.get_changed.outputs.changed }}
     
 
       # - uses: Stockopedia/action-get-changed-files@v1
