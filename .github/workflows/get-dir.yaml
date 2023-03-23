@@ -16,6 +16,7 @@ jobs:
         id: filter
         with:
           list-files: shell
+          base: 'path-ci'
           filters: |
             changed:
               - 'lambda_functions/function1/**'
