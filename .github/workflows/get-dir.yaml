@@ -40,7 +40,7 @@ jobs:
         unique_folders=($(printf "%s\n" "${folders[@]}" | sort -u | tr '\n' ' '))
         echo "directories=$(jq --compact-output --null-input '$ARGS.positional' --args -- ${unique_folders[@]})" >> $GITHUB_OUTPUT
 
-terraform:
+  terraform:
     needs: changes
     name: "Terraform"
     runs-on: ubuntu-latest
