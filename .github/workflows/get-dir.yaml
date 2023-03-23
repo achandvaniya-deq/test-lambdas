@@ -18,8 +18,8 @@ jobs:
           list-files: shell
           filters: |
             changed_files:
-              - 'lambda_functions/fuction1/**'
-              - 'lambda_functions/fuction2/**'
+              - 'lambda_functions/function1/**'
+              - 'lambda_functions/function2/**'
       
       - name: Deploy changed services
         if: ${{ steps.filter.outputs.changed_files == 'true' }}
