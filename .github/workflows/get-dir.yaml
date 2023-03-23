@@ -17,12 +17,12 @@ jobs:
         with:
           list-files: shell
           filters: |
-            changed_files:
+            changed:
               - 'lambda_functions/function1/**'
               - 'lambda_functions/function2/**'
       
       - name: Deploy changed services
-        if: ${{ steps.filter.outputs.changed_files == 'true' }}
+        if: ${{ steps.filter.outputs.changed == 'true' }}
         run: |
           echo "All changes:"
-          for i in ${{ steps.filter.outputs }}; do echo $i ; done
+          for i in ${{ steps.filter.outputs.changed_files }}; do echo $i ; done
