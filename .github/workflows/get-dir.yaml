@@ -54,7 +54,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        directory: ${{ fromJSON(needs.deploy.outputs.directories) }}
+        directory: ${{ FromJSON(needs.deploy.outputs.directories) }}
     steps:
       - name: directories list
         run: echo ${{ matrix.directory }}
