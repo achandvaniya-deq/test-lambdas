@@ -27,3 +27,35 @@ jobs:
         run: |
           echo "All changes:"
           for i in ${{ steps.filter.outputs.changed_files }}; do echo $i ; done
+      
+      - name: Deploy changed services
+        if: ${{ steps.filter.outputs.changed == 'true' }}
+        run: |
+          echo "All changes:"
+          for i in ${{ steps.filter.outputs.changed_files }}; do echo $i ; done
+      
+      - name: transform to directories
+        id: transform
+        continue-on-error: false
+        run: |
+          folders=()
+          for f in ${{ steps.filter.outputs.changed_files }}; \
+            do \
+              echo "Adding $(dirname $f) to folders"; \
+              folders+=($(dirname $f)); \
+          done
+          unique_folders=($(printf "%s\n" "${folders[@]}" | sort -u | tr '\n' ' '))
+          echo "directories=$(jq --compact-output --null-input '$ARGS.positional' --args -- ${unique_folders[@]})" >> $GITHUB_OUTPUT
+
+      # - name: print directories
+  print-directories:
+    needs: changes
+    name: "print directories with changes"
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        directory: ${{ fromJSON(needs.changes.outputs.directories) }}
+    steps:
+      - name: directories list
+        run: echo ${{ matrix.directory }}
+        
