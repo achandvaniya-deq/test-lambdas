@@ -25,4 +25,4 @@ jobs:
         if: ${{ steps.filter.outputs.changed_files == 'true' }}
         run: |
           echo "All changes:"
-          for i in ${{ steps.filter.outputs.changed_files }}; do echo $i ; done
+          for i in ${{ steps.filter.outputs }}; do echo $i ; done
