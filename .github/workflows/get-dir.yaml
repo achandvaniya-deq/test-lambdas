@@ -49,4 +49,4 @@ terraform:
         directory: ${{ fromJSON(needs.changes.outputs.directories) }}
     steps:
       - name: test
-         run: echo ${{ matrix.directory }}
+        run: echo ${{ matrix.directory }}
