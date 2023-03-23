@@ -49,7 +49,7 @@ jobs:
 
       # - name: print directories
   print-directories:
-    needs: changes
+    needs: transform
     name: "print directories with changes"
     runs-on: ubuntu-latest
     strategy:
