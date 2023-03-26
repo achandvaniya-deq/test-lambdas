@@ -5,6 +5,11 @@ on:
     branches:
       - path-ci
 
+env:
+  lambda_function_name: '{"lambda_functions/function1" : "function1_lambda" ,"lambda_functions/function2": "function2_lambda" }'
+
+
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -34,7 +39,7 @@ jobs:
           echo "All changes:"
           for i in ${{ steps.filter.outputs.changed_files }}; do echo $i ; done
       
-      - name: transform to directories
+      - name: get unique directories with changes
         id: transform
         continue-on-error: false
         run: |
@@ -60,5 +65,5 @@ jobs:
         directories: ${{ fromJson(needs.deploy.outputs.directories) }}
     steps:
       - name: directories list
-        run: echo ${{ matrix.directories }}
+        run: echo ${{ lambda_function_name[matrix.directories] }}
         
