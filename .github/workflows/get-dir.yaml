@@ -65,5 +65,5 @@ jobs:
         directories: ${{ fromJson(needs.deploy.outputs.directories) }}
     steps:
       - name: directories list
-        run: echo ${{ lambda_function_name[matrix.directories] }}
+        run: echo ${{ fromJson(env.lambda_function_name)[matrix.directories] }}
         
