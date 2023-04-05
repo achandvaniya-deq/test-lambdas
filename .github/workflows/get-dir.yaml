@@ -1,69 +1,69 @@
-name: 'Deploy'
+# name: 'Deploy'
 
-on:
-  push:
-    branches:
-      - path-ci
+# on:
+#   push:
+#     branches:
+#       - path-ci
 
-env:
-  lambda_function_name: '{"lambda_functions/function1" : "function1_lambda" ,"lambda_functions/function2": "function2_lambda" }'
+# env:
+#   lambda_function_name: '{"lambda_functions/function1" : "function1_lambda" ,"lambda_functions/function2": "function2_lambda" }'
 
 
 
-jobs:
-  deploy:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      - name: Check which services were modified
-        uses: dorny/paths-filter@v2
-        id: filter
-        with:
-          list-files: shell
-          base: 'path-ci'
-          filters: |
-            changed:
-              - 'lambda_functions/function1/**'
-              - 'lambda_functions/function2/**'
+# jobs:
+#   deploy:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Checkout
+#         uses: actions/checkout@v2
+#       - name: Check which services were modified
+#         uses: dorny/paths-filter@v2
+#         id: filter
+#         with:
+#           list-files: shell
+#           base: 'path-ci'
+#           filters: |
+#             changed:
+#               - 'lambda_functions/function1/**'
+#               - 'lambda_functions/function2/**'
       
-      - name: Deploy changed services
-        if: ${{ steps.filter.outputs.changed == 'true' }}
-        run: |
-          echo "All changes:"
-          for i in ${{ steps.filter.outputs.changed_files }}; do echo $i ; done
+#       - name: Deploy changed services
+#         if: ${{ steps.filter.outputs.changed == 'true' }}
+#         run: |
+#           echo "All changes:"
+#           for i in ${{ steps.filter.outputs.changed_files }}; do echo $i ; done
       
-      - name: Deploy changed services
-        if: ${{ steps.filter.outputs.changed == 'true' }}
-        run: |
-          echo "All changes:"
-          for i in ${{ steps.filter.outputs.changed_files }}; do echo $i ; done
+#       - name: Deploy changed services
+#         if: ${{ steps.filter.outputs.changed == 'true' }}
+#         run: |
+#           echo "All changes:"
+#           for i in ${{ steps.filter.outputs.changed_files }}; do echo $i ; done
       
-      - name: get unique directories with changes
-        id: transform
-        continue-on-error: false
-        run: |
-          folders=()
-          for f in ${{ steps.filter.outputs.changed_files }}; \
-            do \
-              echo "Adding $(dirname $f) to folders"; \
-              folders+=($(dirname $f)); \
-          done
-          unique_folders=($(printf "%s\n" "${folders[@]}" | sort -u | tr '\n' ' '))
-          echo "directories=$(jq --compact-output --null-input '$ARGS.positional' --args -- ${unique_folders[@]})" >> $GITHUB_OUTPUT
+#       - name: get unique directories with changes
+#         id: transform
+#         continue-on-error: false
+#         run: |
+#           folders=()
+#           for f in ${{ steps.filter.outputs.changed_files }}; \
+#             do \
+#               echo "Adding $(dirname $f) to folders"; \
+#               folders+=($(dirname $f)); \
+#           done
+#           unique_folders=($(printf "%s\n" "${folders[@]}" | sort -u | tr '\n' ' '))
+#           echo "directories=$(jq --compact-output --null-input '$ARGS.positional' --args -- ${unique_folders[@]})" >> $GITHUB_OUTPUT
     
-    outputs:
-      directories: ${{ steps.transform.outputs.directories }}
+#     outputs:
+#       directories: ${{ steps.transform.outputs.directories }}
 
-      # - name: print directories
-  print-directories:
-    needs: deploy
-    name: "print directories with changes"
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        directories: ${{ fromJson(needs.deploy.outputs.directories) }}
-    steps:
-      - name: directories list
-        run: echo ${{ fromJson(env.lambda_function_name)[matrix.directories] }}
+#       # - name: print directories
+#   print-directories:
+#     needs: deploy
+#     name: "print directories with changes"
+#     runs-on: ubuntu-latest
+#     strategy:
+#       matrix:
+#         directories: ${{ fromJson(needs.deploy.outputs.directories) }}
+#     steps:
+#       - name: directories list
+#         run: echo ${{ fromJson(env.lambda_function_name)[matrix.directories] }}
         
